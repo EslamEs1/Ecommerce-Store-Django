@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>E Store Wishlist</title>
+{% endblock title %}
+
+{% block content %}
+    
+
+        <!-- Breadcrumb Start -->
+        <div class="breadcrumb-wrap">
+            <div class="container-fluid">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'products:list' %}">Products</a></li>
+                    <li class="breadcrumb-item active">Wishlist</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Breadcrumb End -->
+        
+        <!-- Wishlist Start -->
+        <div class="wishlist-page">
+            <div class="container-fluid">
+                <div class="wishlist-page-inner">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Price</th>
+                                            <th>Add to Cart</th>
+                                            <th>Remove</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="align-middle">   
+                                        {% include 'parts/message.html' %}                                    
+                                        {% for wishlist in wishlist %}
+                                            <tr>
+                                                <td>
+                                                    <div class="img">
+                                                        <a href="{{wishlist.get_absolute_url}}"><img src="{{wishlist.img.url}}" alt="Image"></a>
+                                                        <p>{{wishlist}}</p>
+                                                    </div>
+                                                </td>
+                                                <td>${{wishlist.price}}</td>
+                                                <form method="post">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="wishlist" value="{{wishlist.id}}">
+                                                    <td><button class="btn-cart">Add to Cart</button></td>
+                                                    <td><button type="submit"><i class="fa fa-trash"></i></button></td>
+                                                </form>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Wishlist End -->
+
+    
+{% endblock content %}
+    

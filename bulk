@@ -1,0 +1,93 @@
+Cateorys = [
+	Category(title='T-Shirts'),
+	Category(title='Hoodies'),
+	Category(title='Pants'),
+	Category(title='Dresses'),
+	Category(title='Jackets'),
+	Category(title='Sweaters'),
+	Category(title='Shorts'),
+	Category(title='Skirts'),
+	Category(title='Accessories'),
+
+]
+Category.objects.bulk_create(Cateorys)
+
+Brands = [
+	Brand(title='Aarika'),
+	Brand(title='Boldify'),
+	Brand(title='Caprina'),
+	Brand(title='Delicatezze'),
+	Brand(title='Elegance'),
+	Brand(title='FashioNow'),
+	Brand(title='Glamazon'),
+	Brand(title='Adproduct_idass'),
+	Brand(title='Nike'),
+	Brand(title='Jolie'),
+	Brand(title='H&M'),
+	Brand(title='Klassic'),
+
+]
+Brand.objects.bulk_create(Brands)
+
+
+Color1 = [
+	Color(product_id=1, color='Black'),
+	Color(product_id=1, color='White'),
+	Color(product_id=1, color='Red'),
+	Color(product_id=1, color='Blue'),
+	
+]
+
+Color.objects.bulk_create(Color1)
+
+Color2 = [
+	Color(product_id=2, color='Green'),
+	Color(product_id=2, color='Yellow'),
+	Color(product_id=2, color='Pink'),
+	Color(product_id=2, color='Purple'),
+
+]
+
+Color.objects.bulk_create(Color2)
+
+Color2 = [
+	Color(product_id=3, color='Orange'),
+	Color(product_id=3, color='Gray'),
+	Color(product_id=3, color='Pink'),
+	Color(product_id=3, color='Red'),
+
+]
+
+Color.objects.bulk_create(Color2)
+
+
+Size1 = [
+	Size(product_id=1, size='XS'),
+	Size(product_id=1, size='S'),
+	Size(product_id=1, size='M'),
+
+]
+
+Size.objects.bulk_create(Size1)
+
+Size2 = [
+	Size(product_id=2, size='XXL'),
+	Size(product_id=2, size='XL'),
+	Size(product_id=2, size='M'),
+
+]
+
+Size.objects.bulk_create(Size2)
+
+Size3 = [
+	Size(product_id=3, size='XXL'),
+	Size(product_id=3, size='S'),
+	Size(product_id=3, size='M'),
+
+]
+
+Size.objects.bulk_create(Size3)
+
+
+
+i want fake data for developer website store  so i want category list , brand list, title for products,colors,size,Content,Specification, descrtpions,tags

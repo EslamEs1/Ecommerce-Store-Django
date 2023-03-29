@@ -1,0 +1,306 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>{{product}}</title>
+{% endblock title %}
+
+{% block content %}
+
+
+
+<!-- Breadcrumb Start -->
+<div class="breadcrumb-wrap">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'products:list' %}">Products</a></li>
+            <li class="breadcrumb-item active">Product Detail</li>
+        </ul>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Product Detail Start -->
+<div class="product-detail">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="product-detail-top">
+                    <div class="row align-items-center">
+                        <div class="col-md-5">
+                            <div class="product-slider-single normal-slider">
+                                {% for product in product.image.all %}
+                                <img src="{{product.img.url}}" alt="Product Image">
+                                {% endfor %}
+                            </div>
+                            <div class="product-slider-single-nav normal-slider">
+                                {% for product in product.image.all %}
+                                <div class="slider-nav-img"><img src="{{product.img.url}}" alt="Product Image"></div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="product-content">
+                                <div class="title">
+                                    {% include 'parts/message.html' %}
+                                    <h2>{{product}}</h2>
+                                </div>
+                                <div class="ratting">
+                                    <i
+                                    class="{% if product.star >= 1 %}fa fa-star {% else %}fa fa-star-o{% endif %}"></i>
+                                    <i
+                                        class="{% if product.star >= 2 %}fa fa-star {% else %}fa fa-star-o{% endif %}"></i>
+                                    <i
+                                        class="{% if product.star >= 3 %}fa fa-star {% else %}fa fa-star-o{% endif %}"></i>
+                                    <i
+                                    class="{% if product.star >= 4 %}fa fa-star {% else %}fa fa-star-o{% endif %}"></i>
+                                    <i
+                                    class="{% if product.star >= 5 %}fa fa-star {% else %}fa fa-star-o{% endif %}"></i>
+                                    <span>- {{product.star}}</span>
+                                </div>
+                                <div class="price">
+                                    <h4>Price:</h4>
+                                    <p>${{product.price}} <span>${{product.old_price}}</span></p>
+                                </div>
+                                <div class="quantity">
+                                    <h4>Quantity:</h4>
+                                    <div class="qty">
+                                        <button class="btn-minus"><i class="fa fa-minus"></i></button>
+                                        <input type="text" value="1">
+                                        <button class="btn-plus"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="p-size">
+                                    <h4>Size:</h4>
+                                    <div class="btn-group btn-group-sm">
+                                        {% for product in product.size.all %}
+                                        <button type="button" class="btn">{{product.size}}</button>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="p-color">
+                                    <h4>Color:</h4>
+                                    <div class="btn-group btn-group-sm">
+                                        {% for product in product.color.all %}
+                                        <button type="button" class="btn">{{product.color}}</button>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="action">
+                                    <a class="btn" href="#"><i class="fa fa-shopping-cart"></i>Add to Cart</a>
+                                    <a class="btn" href="#"><i class="fa fa-shopping-bag"></i>Buy Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row product-detail-bottom">
+                    <div class="col-lg-12">
+                        <ul class="nav nav-pills nav-justified">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="pill" href="#description">Description</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#specification">Specification</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#reviews">Reviews (1)</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div id="description" class="container tab-pane active">
+                                <h4>Product description</h4>
+                                <p>{{product.content|safe}}</p>
+                            </div>
+                            <div id="specification" class="container tab-pane fade">
+                                <h4>Product specification</h4>
+                                <p>{{product.specification|safe}}</p>
+                            </div>
+                            <div id="reviews" class="container tab-pane fade">
+                                {% for review in product.reviews.all %}
+                                <div class="reviews-submitted">
+                                    <div class="reviewer">{{review.user.name}} - <span>{{review.created_at|timesince}}</span></div>
+                                        <div class="ratting">
+                                            <i
+                                            class="{% if review.rating >= 1 %}fa fa-star {% else %}fa fa-star-o{% endif %}"></i>
+                                            <i
+                                                class="{% if review.rating >= 2 %}fa fa-star {% else %}fa fa-star-o{% endif %}"></i>
+                                            <i
+                                                class="{% if review.rating >= 3 %}fa fa-star {% else %}fa fa-star-o{% endif %}"></i>
+                                            <i
+                                            class="{% if review.rating >= 4 %}fa fa-star {% else %}fa fa-star-o{% endif %}"></i>
+                                            <i
+                                            class="{% if review.rating >= 5 %}fa fa-star {% else %}fa fa-star-o{% endif %}"></i>
+                                        </div>
+                                    <p>{{review.review}}</p>
+                                </div>
+                                {% endfor %}
+                                <div class="reviews-submit">
+                                    <h4>Give your Review:</h4>
+                                    
+                                    {% if request.user.is_authenticated %}
+                                    <form class="row form" method="post">
+                                        {% csrf_token %}
+                                        <div class="col-md-12">
+                                            <label class="form-label">Add Ratings</label>
+                                            <div class="star-rating" style="font-size:30px;">
+                                                <span class="fa fa-star-o text-warning" data-rating="1"></span>
+                                                <span class="fa fa-star-o text-warning" data-rating="2"></span>
+                                                <span class="fa fa-star-o text-warning" data-rating="3"></span>
+                                                <span class="fa fa-star-o text-warning" data-rating="4"></span>
+                                                <span class="fa fa-star-o text-warning" data-rating="5"></span>
+                                                <input type="hidden" name="rating" id="rating">
+                                            </div>
+                                            <br>
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlTextarea1" class="form-label">Leave A
+                                                    Comment</label>
+                                                <textarea name="comment" rows="4" placeholder="Review"></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="form-group"><button class="btn btn-primary"
+                                                        type="submit">Share</button></div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    {% else %}
+                                    <h2 style="color:red">Login For Add Reviews</h2>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product">
+                    <div class="section-header">
+                        <h1>Related Products</h1>
+                    </div>
+
+                    <div class="row align-items-center product-slider product-slider-3">
+                        {% for related in related|slice:':6' %}
+                        <div class="col-lg-3">
+                            <div class="product-item">
+                                <div class="product-title">
+                                    <a href="{{related.get_absolute_url}}">{{related}}</a>
+                                        <div class="ratting">
+                                            <i
+                                            class="{% if related.star >= 1 %}fa fa-star {% else %}fa fa-star-o{% endif %}"></i>
+                                            <i
+                                                class="{% if related.star >= 2 %}fa fa-star {% else %}fa fa-star-o{% endif %}"></i>
+                                            <i
+                                                class="{% if related.star >= 3 %}fa fa-star {% else %}fa fa-star-o{% endif %}"></i>
+                                            <i
+                                            class="{% if related.star >= 4 %}fa fa-star {% else %}fa fa-star-o{% endif %}"></i>
+                                            <i
+                                            class="{% if related.star >= 5 %}fa fa-star {% else %}fa fa-star-o{% endif %}"></i>
+                                        </div>
+                                </div>
+                                <div class="product-image">
+                                    <a href="{{related.get_absolute_url}}">
+                                        <img src="{{related.img.url}}" alt="Product Image">
+                                    </a>
+                                    <div class="product-action">
+                                        <a href="#"><i class="fa fa-cart-plus"></i></a>
+                                        <a href="#"><i class="fa fa-heart"></i></a>
+                                        <a href="{{related.get_absolute_url}}"><i class="fa fa-search"></i></a>
+                                    </div>
+                                </div>
+                                <div class="product-price">
+                                    <h3><span>$</span>{{related.price}}</h3>
+                                    <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                            
+                    </div>
+                </div>
+            </div>
+
+            <!-- Side Bar Start -->
+            <div class="col-lg-4 sidebar">
+                <div class="sidebar-widget category">
+                    <h2 class="title">Category</h2>
+                    <nav class="navbar bg-light">
+                        <ul class="navbar-nav">
+
+                            {% for category in category %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'products:filter_list' category.slug %}"><i
+                                        class="{{category.font}}"></i>{{category}}</a>
+                            </li>
+                            {% endfor %}
+
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="sidebar-widget widget-slider">
+                    <div class="sidebar-slider normal-slider">
+                        {% for product in related|slice:':12' %}
+                        <div class="product-item">
+                            <div class="product-title">
+                                <a href="{{product.get_absolute_url}}">{{product}}</a>
+                                <div class="ratting">
+                                    <i
+                                        class="{% if product.star >= 1 %}fa fa-star {% else %}fa fa-star-o{% endif %}"></i>
+                                    <i
+                                        class="{% if product.star >= 2 %}fa fa-star {% else %}fa fa-star-o{% endif %}"></i>
+                                    <i
+                                        class="{% if product.star >= 3 %}fa fa-star {% else %}fa fa-star-o{% endif %}"></i>
+                                    <i
+                                        class="{% if product.star >= 4 %}fa fa-star {% else %}fa fa-star-o{% endif %}"></i>
+                                    <i
+                                        class="{% if product.star >= 5 %}fa fa-star {% else %}fa fa-star-o{% endif %}"></i>
+                                </div>
+                            </div>
+                            <div class="product-image">
+                                <a href="{{product.get_absolute_url}}">
+                                    <img src="{{product.img.url}}" alt="Product Image">
+                                </a>
+                                <div class="product-action">
+                                    <a href="#"><i class="fa fa-cart-plus"></i></a>
+                                    <a href="#"><i class="fa fa-heart"></i></a>
+                                    <a href="{{product.get_absolute_url}}"><i class="fa fa-search"></i></a>
+                                </div>
+                            </div>
+                            <div class="product-price">
+                                <h3><span>$</span>{{product.price}}</h3>
+                                <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="sidebar-widget brands">
+                    <h2 class="title">Our Brands</h2>
+                    <ul>
+
+                        {% for brand in brand %}
+                        <li><a href="{% url 'products:filter_list' brand.slug %}">{{brand}}
+                            </a><span>({{brand.count}})</span></li>
+                        {% endfor %}
+
+                    </ul>
+                </div>
+
+                <div class="sidebar-widget tag">
+                    <h2 class="title">Tags Cloud</h2>
+                    {% for tag in tags %}
+                    <a href="#">{{tag.name}}</a>
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- Side Bar End -->
+            <!-- Side Bar End -->
+        </div>
+    </div>
+</div>
+<!-- Product Detail End -->
+
+{% endblock content %}
