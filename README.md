@@ -14,12 +14,12 @@ Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings
 ## Basic Commands
 
 ### Setting Up Your Users
--   To Start Project
+-   To Start Project:
 
     $ pip install -r requirements/local.txt
 
     $ python manage.py makemigrations
-    
+
     $ python manage.py migrate
 
 ### Setting Up Your Users
