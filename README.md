@@ -1,5 +1,7 @@
 # E Store
 
+Author Eslam Essam
+
 Ecommerce Store
 
 [![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
@@ -10,6 +12,13 @@ Ecommerce Store
 Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings.html).
 
 ## Basic Commands
+
+### Setting Up Your Users
+-   To Start Project
+
+    $ pip install -r requirements/local.txt
+    $ python manage.py makemigrations
+    $ python manage.py migrate
 
 ### Setting Up Your Users
 
